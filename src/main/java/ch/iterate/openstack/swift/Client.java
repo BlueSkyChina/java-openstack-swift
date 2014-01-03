@@ -79,8 +79,6 @@ import ch.iterate.openstack.swift.handler.ContainerResponseHandler;
 import ch.iterate.openstack.swift.handler.DefaultResponseHandler;
 import ch.iterate.openstack.swift.handler.ObjectMetadataResponseHandler;
 import ch.iterate.openstack.swift.handler.ObjectResponseHandler;
-import ch.iterate.openstack.swift.io.ContentLengthInputStream;
-import ch.iterate.openstack.swift.io.SubInputStream;
 import ch.iterate.openstack.swift.method.Authentication10UsernameKeyRequest;
 import ch.iterate.openstack.swift.method.Authentication11UsernameKeyRequest;
 import ch.iterate.openstack.swift.method.Authentication20UsernamePasswordRequest;
@@ -1506,7 +1504,7 @@ public class Client {
      * @return An input stream that will give the objects content when read from.
      * @throws GenericException Unexpected response
      */
-    public ContentLengthInputStream getObject(Region region, String container, String object) throws IOException {
+    public InputStream getObject(Region region, String container, String object) throws IOException {
         HttpGet method = new HttpGet(region.getStorageUrl(container, object));
         Response response = this.execute(method);
         if(response.getStatusCode() == HttpStatus.SC_OK) {
@@ -1522,7 +1520,7 @@ public class Client {
         }
     }
 
-    public ContentLengthInputStream getObject(Region region, String container, String object, long offset, long length) throws IOException {
+    public InputStream getObject(Region region, String container, String object, long offset, long length) throws IOException {
         HttpGet method = new HttpGet(region.getStorageUrl(container, object));
         method.setHeader("Range", "bytes=" + offset + "-" + length);
         Response response = this.execute(method);
