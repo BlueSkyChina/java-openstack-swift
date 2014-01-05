@@ -1058,7 +1058,7 @@ public class Client {
      * @return the file ETAG if response code is 201
      * @throws GenericException Unexpected response
      */
-    public String storeObject(Region region, String container, InputStream data, String contentType, String name, Map<String, String> metadata) throws IOException {
+	public String storeObject(Region region, String container, InputStream data, String contentType, String name, Map<String, String> metadata) throws IOException {
         HttpPut method = new HttpPut(region.getStorageUrl(container, name));
         InputStreamEntity entity = new InputStreamEntity(data, -1);
         entity.setChunked(true);
@@ -1463,6 +1463,7 @@ public class Client {
             final String path = region.getStorageUrl(container, object).getRawPath();
             body.append(path.substring(region.getStorageUrl().getRawPath().length() + 1)).append('\n');
         }
+
         method.setEntity(new StringEntity(body.toString(), "UTF-8"));
         this.execute(method, new DefaultResponseHandler());
     }
